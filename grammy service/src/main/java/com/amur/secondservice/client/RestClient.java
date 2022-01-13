@@ -27,19 +27,6 @@ public class RestClient {
 
     public void updateMusicBand(MusicBandDTO musicBandDTO) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         System.out.println(musicBandDTO);
-        restTemplateConfig.restTemplate().put(REST_URI + "/" + musicBandDTO.getId(), "<musicBandDTO>" +
-                "<id>" +musicBandDTO.getId()+ "</id>" +
-                "<name>" +musicBandDTO.getName()+ "</name>" +
-                "<creationDate>" +musicBandDTO.getCreationDate()+ "</creationDate>" +
-                "<description>" +musicBandDTO.getDescription()+ "</description>" +
-                "<numberOfParticipants>" +musicBandDTO.getNumberOfParticipants()+ "</numberOfParticipants>" +
-                "<genre>" +musicBandDTO.getGenre()+ "</genre>" +
-                "<singlesCount>" +musicBandDTO.getSinglesCount()+ "</singlesCount>" +
-                "<coordinates><id>" +musicBandDTO.getCoordinates()+ "</id></coordinates>" +
-                "<bestAlbum>" +
-                "<id>" +musicBandDTO.getBestAlbum()+ "</id>" +
-                "</bestAlbum>" +
-                "<nominee>" + musicBandDTO.isNominee() + "</nominee>" +
-                "<winner>" + musicBandDTO.isWinner() + "</winner>" + "</musicBandDTO>");
+        restTemplateConfig.restTemplate().put(REST_URI + "/" + musicBandDTO.getId(), musicBandDTO);
     }
 }
