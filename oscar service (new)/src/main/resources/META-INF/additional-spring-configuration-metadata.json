@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "soaspring.dir-to-sertificates",
+      "type": "java.lang.String",
+      "description": "Description for soaspring.dir-to-sertificates."
+    },
+    {
+      "name": "soaspring.custom-trust-store",
+      "type": "java.lang.String",
+      "description": "Description for soaspring.custom-trust-store."
+    },
+    {
+      "name": "soaspring.custom-trust-store-password",
+      "type": "java.lang.String",
+      "description": "Description for soaspring.custom-trust-store-password."
+    }
+  ] }
