@@ -14,5 +14,10 @@
       "name": "soaspring.custom-trust-store-password",
       "type": "java.lang.String",
       "description": "Description for soaspring.custom-trust-store-password."
+    },
+    {
+      "name": "host.path",
+      "type": "java.lang.String",
+      "description": "Description for host.path."
     }
   ] }

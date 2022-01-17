@@ -33,12 +33,12 @@ public class GrammyService {
         if(musicBandDTOArr.get(0) == null){
             throw new NotFoundException("Music band with id = " + bandId + " not found");
         }
-        if(!Objects.equals(musicBandDTOArr.get(0).getGenre().toString(), genre)){
+        if(!Objects.equals(musicBandDTOArr.get(0).getGenre().toString(), genre)) {
             throw new BadRequestException("Music band genre mismatch");
         }
-
-        musicBandDTOArr.get(0).setNominee(true);
-        restClient.updateMusicBand(musicBandDTOArr.get(0));
+        MusicBandDTO musicBandDTO = musicBandDTOList.getMusicBandList().get(0);
+        musicBandDTO.setNominee(true);
+        restClient.updateMusicBand(musicBandDTO);
     }
 
     public void rewardBand(Integer bandId, MusicGenre genre) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
@@ -55,7 +55,8 @@ public class GrammyService {
             throw new BadRequestException("Music band is not a nominee!");
         }
 
-        musicBandDTOArr.get(0).setWinner(true);
-        restClient.updateMusicBand(musicBandDTOArr.get(0));
+        MusicBandDTO musicBandDTO = musicBandDTOList.getMusicBandList().get(0);
+        musicBandDTO.setWinner(true);
+        restClient.updateMusicBand(musicBandDTO);
     }
 }

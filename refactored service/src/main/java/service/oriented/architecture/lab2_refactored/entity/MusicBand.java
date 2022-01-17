@@ -61,9 +61,9 @@ public class MusicBand {
     @XmlElement(name = "bestAlbum")
     private Album bestAlbum; //Поле не может быть null
 
-    @Column(name = "nominee", columnDefinition = "boolean default false")
+    @Column(name = "nominee")
     private boolean nominee;
 
-    @Column(name = "winner", columnDefinition = "boolean default false")
+    @Column(name = "winner")
     private boolean winner;
 }

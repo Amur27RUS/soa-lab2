@@ -39,7 +39,7 @@ public class MusicBandService {
     @Transactional
     public void updateMusicBand(MusicBand musicBandToUpdate) {
         MusicBand existingMusicBand = musicBandRepository.findById(musicBandToUpdate.getId())
-                .orElseThrow(() -> new NoResultException("Movie with id " + musicBandToUpdate.getId() + " does not exist"));
+                .orElseThrow(() -> new NoResultException("MusicBand with id " + musicBandToUpdate.getId() + " does not exist"));
         musicBandToUpdate.setCreationDate(existingMusicBand.getCreationDate());
         entityValidator.validateMusicBand(musicBandToUpdate);
         musicBandRepository.save(musicBandToUpdate);

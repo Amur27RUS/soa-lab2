@@ -13,7 +13,9 @@ import service.oriented.architecture.lab2_refactored.mapper.MusicBandMapper;
 import service.oriented.architecture.lab2_refactored.service.MusicBandService;
 
 import java.io.IOException;
+import java.rmi.UnmarshalException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -32,22 +34,35 @@ public class MusicBandController {
     }
 
     @GetMapping
-    public MusicBandDTOList getMusicBands(@RequestParam(name = "perPage", required = false) Integer perPage,
-                                          @RequestParam(name = "curPage", required = false) Integer curPage,
-                                          @RequestParam(name = "sortBy", required = false) String sortBy,
-                                          @RequestParam(name = "filterBy", required = false) String filterBy) throws IOException {
+    public Object getMusicBands(@RequestParam(name = "perPage", required = false) Integer perPage,
+                                @RequestParam(name = "curPage", required = false) Integer curPage,
+                                @RequestParam(name = "sortBy", required = false) String sortBy,
+                                @RequestParam(name = "filterBy", required = false) String filterBy) throws IOException {
         System.out.println("FILTER BY" + filterBy);
+
+        if (sortBy != null && !sortBy.equals("name") && !sortBy.equals("id") && !sortBy.equals("singles") && !sortBy.equals("numberOfParticipants") && !sortBy.equals("genre")
+                && !sortBy.equals("date") && !sortBy.equals("coordinate") && !sortBy.equals("bestAlbum")) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        if (filterBy != null && !filterBy.split(",")[0].equals("name") && !filterBy.split(",")[0].equals("id") && !filterBy.split(",")[0].equals("singles") && !filterBy.equals("numberOfParticipants") && !filterBy.split(",")[0].equals("genre")
+                && !filterBy.split(",")[0].equals("date") && !filterBy.split(",")[0].equals("coordinate") && !filterBy.equals("bestAlbum")) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         PagedMusicBandList pagedMusicBandList = musicBandService.getMusicBands(perPage, curPage, sortBy, filterBy);
         return new MusicBandDTOList((musicBandMapper.mapMusicBandListToMusicBandDTOList(pagedMusicBandList.getMusicBandList())), pagedMusicBandList.getCount());
     }
 
     @GetMapping(value = "/{id}")
-    public MusicBandDTOList getMusicBand(@PathVariable(name = "id") Integer id) {
+    public MusicBandDTO getMusicBand(@PathVariable(name = "id") Integer id) {
         MusicBand musicBand = musicBandService.getMusicBandById(id);
-        MusicBandDTOList dto = new MusicBandDTOList(new ArrayList<>(), 1);
-        List<MusicBandDTO> dtoList = dto.getMusicBandList();
-        dtoList.add(musicBandMapper.mapMusicBandToMusicBandDTO(musicBand));
-        return dto;
+//        MusicBandDTOList dto = new MusicBandDTOList(new ArrayList<>(), 1);
+//        List<MusicBandDTO> dtoList = dto.getMusicBandList();
+//        dtoList.add(musicBandMapper.mapMusicBandToMusicBandDTO(musicBand));
+
+        MusicBandDTO musicBandDTO = musicBandMapper.mapMusicBandToMusicBandDTO(musicBand);
+
+        return musicBandDTO;
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_XML_VALUE, value = "/{id}")
@@ -55,6 +70,8 @@ public class MusicBandController {
         System.out.println("UPDATE");
         MusicBand musicBandToUpdate = musicBandMapper.mapMusicBandDTOToMusicBand(musicBandDTO);
         musicBandService.updateMusicBand(musicBandToUpdate);
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println(musicBandToUpdate.isNominee());
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -67,6 +84,10 @@ public class MusicBandController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteMusicBand(@PathVariable(name = "id") Integer id) {
+        MusicBand musicBand = musicBandService.getMusicBandById(id);
+        if(musicBand == null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
         musicBandService.deleteMusicBand(id);
         return new ResponseEntity(HttpStatus.OK);
     }

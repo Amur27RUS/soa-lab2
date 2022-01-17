@@ -48,8 +48,8 @@ public class AlbumController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity createAlbum(@RequestBody AlbumDTOList albumDTOList) {
-        Album albumToPersist = albumMapper.mapAlbumDTOToAlbum(albumDTOList.getAlbumsList().get(0));
+    public ResponseEntity createAlbum(@RequestBody AlbumDTO albumDTO) {
+        Album albumToPersist = albumMapper.mapAlbumDTOToAlbum(albumDTO);
         albumService.createAlbum(albumToPersist);
         return new ResponseEntity(HttpStatus.OK);
     }
