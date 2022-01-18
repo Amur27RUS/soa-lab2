@@ -3,6 +3,7 @@ package com.amur.secondservice.client;
 import com.amur.secondservice.dto.MusicBandDTO;
 import com.amur.secondservice.dto.dtoList.MusicBandDTOList;
 import com.amur.secondservice.utils.RestTemplateConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,8 +27,8 @@ public class RestClient {
         this.restTemplateConfig = restTemplateConfig;
     }
 
-    public MusicBandDTOList getMusicBandById(Integer id) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
-        return restTemplateConfig.restTemplate().getForObject(REST_URI + "/" + id, MusicBandDTOList.class);
+    public MusicBandDTO getMusicBandById(Integer id) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
+        return restTemplateConfig.restTemplate().getForObject(REST_URI + "/" + id, MusicBandDTO.class);
     }
 
     public void updateMusicBand(MusicBandDTO musicBandDTO) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {

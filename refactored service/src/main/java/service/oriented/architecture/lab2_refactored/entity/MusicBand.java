@@ -54,16 +54,10 @@ public class MusicBand {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private MusicGenre genre; //Поле может быть null
+    private MusicGenre genre;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "album_id")
     @XmlElement(name = "bestAlbum")
     private Album bestAlbum; //Поле не может быть null
-
-    @Column(name = "nominee")
-    private boolean nominee;
-
-    @Column(name = "winner")
-    private boolean winner;
 }

@@ -33,7 +33,6 @@ public class MusicBandRepositoryImpl implements MusicBandRepositoryCustom {
         return (query.uniqueResult() != null);
     }
 
-
     public MusicBand findById(Integer id) {
         if (existsById(id)) {
             Query query = em.createQuery("SELECT c FROM MusicBand c WHERE c.id = ?1", MusicBand.class);

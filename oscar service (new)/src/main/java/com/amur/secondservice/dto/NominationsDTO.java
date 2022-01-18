@@ -1,4 +1,4 @@
-package service.oriented.architecture.lab2_refactored.dto;
+package com.amur.secondservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,14 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
-public class MusicBandDTO {
+public class NominationsDTO {
     private String id;
-    private String name;
-    private CoordinatesDTO coordinates;
-    private String creationDate;
-    private String singlesCount;
-    private String numberOfParticipants;
-    private String description;
+    private boolean nominee;
+    private boolean winner;
     private String genre;
-    private AlbumDTO bestAlbum;
 }
+

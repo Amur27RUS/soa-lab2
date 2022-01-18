@@ -1,6 +1,8 @@
 package com.amur.secondservice.controller;
 
 import com.amur.secondservice.enums.MusicGenre;
+import com.amur.secondservice.exception.BadRequestException;
+import com.amur.secondservice.exception.NotFoundException;
 import com.amur.secondservice.service.GrammyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,5 +43,21 @@ public class GrammyController {
     public ResponseEntity<?> rewardBand(@PathVariable("band-id") Integer id, @PathVariable("genre") MusicGenre gerne) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         grammyService.rewardBand(id, gerne);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleBadRequestException(BadRequestException e){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleNotFoundException(NotFoundException e){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
     }
 }

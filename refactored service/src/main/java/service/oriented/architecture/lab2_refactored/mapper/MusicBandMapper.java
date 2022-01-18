@@ -1,7 +1,5 @@
 package service.oriented.architecture.lab2_refactored.mapper;
 
-
-
 import org.apache.http.HttpResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +45,6 @@ public class MusicBandMapper {
             musicBand.setName(FieldValidationUtil.getStringValue(musicBandDTO.getName()));
             musicBand.setDescription(FieldValidationUtil.getStringValue(musicBandDTO.getDescription()));
             musicBand.setSinglesCount(FieldValidationUtil.getLongFieldValue(musicBandDTO.getSinglesCount()));
-            musicBand.setNominee(musicBandDTO.isNominee());
-            musicBand.setWinner(musicBandDTO.isWinner());
             Album bestAlbum;
             if (!musicBandDTO.getBestAlbum().getId().equals("")) {
                 bestAlbum = albumRepository.findById(Integer.parseInt(musicBandDTO.getBestAlbum().getId())).get();
@@ -70,8 +66,6 @@ public class MusicBandMapper {
         musicBandDTO.setDescription(String.valueOf(musicBand.getDescription()));
         musicBandDTO.setGenre(String.valueOf(musicBand.getGenre()));
         musicBandDTO.setSinglesCount(String.valueOf(musicBand.getSinglesCount()));
-        musicBandDTO.setNominee(musicBand.isNominee());
-        musicBandDTO.setWinner(musicBand.isWinner());
         return musicBandDTO;
     }
 

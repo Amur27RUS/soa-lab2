@@ -71,7 +71,6 @@ public class MusicBandController {
         MusicBand musicBandToUpdate = musicBandMapper.mapMusicBandDTOToMusicBand(musicBandDTO);
         musicBandService.updateMusicBand(musicBandToUpdate);
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(musicBandToUpdate.isNominee());
         return new ResponseEntity(HttpStatus.OK);
     }
 
