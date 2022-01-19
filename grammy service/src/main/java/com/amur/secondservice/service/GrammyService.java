@@ -69,17 +69,18 @@ public class GrammyService {
             throw new BadRequestException("Music band genre mismatch");
         }
 
+        Nominations nominations = nominationsRepository.getNominationsByIdAndNomineeIsTrue(bandId);
+
+        if(!nominationsRepository.findById(bandId).isPresent() || nominations == null){
+            throw new BadRequestException("Music band is not nominated!");
+        }
+
         List<Nominations> nominationsList = nominationsRepository.getNominationsByGenreAndWinnerIsTrue(genre);
 
         if(!nominationsList.isEmpty()){
             throw new BadRequestException("There's at least one winner in selected genre");
         }
 
-        Nominations nominations = nominationsRepository.getNominationsByIdAndNomineeIsTrue(bandId);
-
-        if(!nominationsRepository.findById(bandId).isPresent() || nominations == null){
-            throw new BadRequestException("Music band is not nominated!");
-        }
 
         Nominations finalNominations = new Nominations();
         finalNominations.setId(bandId);

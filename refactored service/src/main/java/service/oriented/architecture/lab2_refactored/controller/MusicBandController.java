@@ -9,8 +9,10 @@ import service.oriented.architecture.lab2_refactored.dto.MusicBandDTO;
 import service.oriented.architecture.lab2_refactored.dto.PagedMusicBandList;
 import service.oriented.architecture.lab2_refactored.dto.dtoList.MusicBandDTOList;
 import service.oriented.architecture.lab2_refactored.entity.MusicBand;
+import service.oriented.architecture.lab2_refactored.exceptions.XmlParseException;
 import service.oriented.architecture.lab2_refactored.mapper.MusicBandMapper;
 import service.oriented.architecture.lab2_refactored.service.MusicBandService;
+import service.oriented.architecture.lab2_refactored.xml.XmlToJavaConverter;
 
 import java.io.IOException;
 import java.rmi.UnmarshalException;
@@ -26,11 +28,13 @@ public class MusicBandController {
 
     private final MusicBandService musicBandService;
     private final MusicBandMapper musicBandMapper;
+    private XmlToJavaConverter xmlToJava;
 
     public MusicBandController(MusicBandService musicBandService,
                            MusicBandMapper musicBandMapper) {
         this.musicBandService = musicBandService;
         this.musicBandMapper = musicBandMapper;
+        this.xmlToJava = new XmlToJavaConverter();
     }
 
     @GetMapping
@@ -66,17 +70,17 @@ public class MusicBandController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_XML_VALUE, value = "/{id}")
-    public ResponseEntity updateMusicBand(@RequestBody MusicBandDTO musicBandDTO) {
+    public ResponseEntity updateMusicBand(@RequestBody String musicBandDTO) {
         System.out.println("UPDATE");
-        MusicBand musicBandToUpdate = musicBandMapper.mapMusicBandDTOToMusicBand(musicBandDTO);
+        MusicBand musicBandToUpdate = musicBandMapper.mapMusicBandDTOToMusicBand(xmlToJava.getSingleMusicBandDTOFromXml(musicBandDTO));
         musicBandService.updateMusicBand(musicBandToUpdate);
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity createMusicBand(@RequestBody MusicBandDTO musicBandDTO) {
-        MusicBand musicBandToPersist = musicBandMapper.mapMusicBandDTOToMusicBand(musicBandDTO);
+    public ResponseEntity createMusicBand(@RequestBody String musicBandDTO) {
+        MusicBand musicBandToPersist = musicBandMapper.mapMusicBandDTOToMusicBand(xmlToJava.getSingleMusicBandDTOFromXml(musicBandDTO));
         musicBandService.createMusicBand(musicBandToPersist);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -89,6 +93,14 @@ public class MusicBandController {
         }
         musicBandService.deleteMusicBand(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(XmlParseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleBadRequestException(XmlParseException e){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
     }
 
 
