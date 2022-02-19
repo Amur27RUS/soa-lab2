@@ -6,6 +6,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -32,6 +33,7 @@ public class RestTemplateConfig {
         this.customTrustStore = customTrustStore;
         this.customTrustStorePassword = customTrustStorePassword;
     }
+
 
     public RestTemplate restTemplate() throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         System.out.println(dirToSertificates + " " + customTrustStore + " " + customTrustStorePassword);

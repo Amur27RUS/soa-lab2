@@ -46,7 +46,6 @@ public class CoordinatesController {
         return dto;
     }
 
-
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity createCoordinate(@RequestBody CoordinatesDTOList coordinatesDTOList) {
         Coordinates coordinatesToPersist = coordinatesMapper.mapCoordinatesDTOToCoordinates(coordinatesDTOList.getCoordinatesList().get(0));

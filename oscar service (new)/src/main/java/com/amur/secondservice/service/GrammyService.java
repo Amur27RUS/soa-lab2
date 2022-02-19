@@ -10,6 +10,7 @@ import com.amur.secondservice.exception.NotFoundException;
 import com.amur.secondservice.repository.NominationsRepository;
 import com.amur.secondservice.utils.FieldValidationUtil;
 import com.amur.secondservice.validation.EntityValidator;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
@@ -36,6 +37,7 @@ public class GrammyService {
     }
 
     public void nominateBand(Integer bandId, String genre) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
+        System.out.println("НАЧИНАЮ ПОЛУЧЕНИЕ ГРУППЫ...");
         MusicBandDTO musicBandDTO = restClient.getMusicBandById(bandId);
         System.out.println(musicBandDTO.getName() + " ПОЛУЧЕННАЯ ГРУППА");
 
