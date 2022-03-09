@@ -41,7 +41,7 @@ public class GrammyController {
 
     @GetMapping("/band/{band-id}/reward/{genre}")
     public ResponseEntity<?> rewardBand(@PathVariable("band-id") Integer id, @PathVariable("genre") MusicGenre gerne) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
-        grammyService.rewardBand(id, gerne);
+        grammyService.rewardBand(id, gerne.toString());
         return new ResponseEntity(HttpStatus.OK);
     }
 

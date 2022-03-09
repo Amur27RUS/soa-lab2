@@ -60,9 +60,10 @@ public class GrammyService {
         updateNominations(nominations);
     }
 
-    public void rewardBand(Integer bandId, MusicGenre genre) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
+    public void rewardBand(Integer bandId, String genre) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, KeyManagementException {
         MusicBandDTO musicBandDTO = restClient.getMusicBandById(bandId);
         System.out.println(musicBandDTO.getName() + " ПОЛУЧЕННАЯ ГРУППА");
+        MusicGenre musicGenre = MusicGenre.PSYCHEDELIC_ROCK;
 
         if(musicBandDTO == null){
             throw new NotFoundException("Music band with id = " + bandId + " not found");
@@ -76,8 +77,16 @@ public class GrammyService {
         if(!nominationsRepository.findById(bandId).isPresent() || nominations == null){
             throw new BadRequestException("Music band is not nominated!");
         }
-
-        List<Nominations> nominationsList = nominationsRepository.getNominationsByGenreAndWinnerIsTrue(genre);
+        if(genre.equals("BRIT_POP")){
+            musicGenre = MusicGenre.BRIT_POP;
+        }else if(genre.equals("POST_ROCK")){
+            musicGenre= MusicGenre.POST_ROCK;
+        }else if(genre.equals("PROGRESSIVE_ROCK")){
+            musicGenre= MusicGenre.PROGRESSIVE_ROCK;
+        }else if(genre.equals("PSYCHEDELIC_ROCK")){
+            musicGenre= MusicGenre.PSYCHEDELIC_ROCK;
+        }
+        List<Nominations> nominationsList = nominationsRepository.getNominationsByGenreAndWinnerIsTrue(musicGenre);
 
         if(!nominationsList.isEmpty()){
             throw new BadRequestException("There's at least one winner in selected genre");
@@ -88,7 +97,7 @@ public class GrammyService {
         finalNominations.setId(bandId);
         finalNominations.setNominee(true);
         finalNominations.setWinner(true);
-        finalNominations.setGenre(genre);
+        finalNominations.setGenre(musicGenre);
 
         updateNominations(finalNominations);
     }
