@@ -7,6 +7,8 @@ import com.amur.secondservice.entity.Nominations;
 import com.amur.secondservice.enums.MusicGenre;
 import com.amur.secondservice.exception.BadRequestException;
 import com.amur.secondservice.exception.NotFoundException;
+import com.amur.secondservice.exception.ServiceFaultException;
+import com.amur.secondservice.generated.ServiceStatus;
 import com.amur.secondservice.repository.NominationsRepository;
 import com.amur.secondservice.utils.FieldValidationUtil;
 import com.amur.secondservice.validation.EntityValidator;
@@ -66,7 +68,14 @@ public class GrammyService {
         MusicGenre musicGenre = MusicGenre.PSYCHEDELIC_ROCK;
 
         if(musicBandDTO == null){
-            throw new NotFoundException("Music band with id = " + bandId + " not found");
+            System.out.println("YAAAAOOOOOOOO HELLOOOOOO");
+            String errorMessage = "ERROR";
+            ServiceStatus serviceStatus = new ServiceStatus();
+            serviceStatus.setStatusCode("NOT_FOUND");
+            serviceStatus.setMessage("Music band with id = " + bandId + " not found");
+
+            throw new ServiceFaultException(errorMessage, serviceStatus);
+//            throw new NotFoundException("Music band with id = " + bandId + " not found");
         }
         if(!Objects.equals(musicBandDTO.getGenre(), genre.toString())){
             throw new BadRequestException("Music band genre mismatch");
